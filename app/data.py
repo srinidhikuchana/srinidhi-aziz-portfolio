@@ -11,6 +11,8 @@ NAV_LINKS = [
     {"name": "Team Home", "endpoint": "index"},
     {"name": "Sri Nidhi", "endpoint": "sri_nidhi"},
     {"name": "Sri Hobbies", "endpoint": "sri_nidhi_hobbies"},
+    {"name": "Aziz", "endpoint": "aziz"},
+    {"name": "Aziz Hobbies", "endpoint": "aziz_hobbies"},
 ]
 
 TEAM_MEMBERS = [
