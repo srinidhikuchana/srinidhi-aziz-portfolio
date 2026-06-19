@@ -23,7 +23,10 @@
     {% include "_nav.html" %}
 
     <section class="person-hero aziz-hero">
-        <div class="person-avatar">AE</div>
+        <div class="person-photo">
+            <img src="{{ url_for('static', filename='img/metaxmlh.jpg') }}" alt="Aziz Ercoban">
+        </div>
+
         <p class="eyebrow">Aziz Portfolio</p>
         <h1>Aziz Ercoban</h1>
         <p>
@@ -78,6 +81,7 @@
                 </div>
 
                 <p class="card-subtitle">{{ edu.degree }}</p>
+
                 {% if edu.details %}
                 <p>{{ edu.details }}</p>
                 {% endif %}
