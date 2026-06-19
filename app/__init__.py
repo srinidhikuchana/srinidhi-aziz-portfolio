@@ -67,11 +67,10 @@ def aziz():
 @app.route('/aziz/hobbies')
 def aziz_hobbies():
     return render_template(
-        'coming_soon.html',
+        'aziz_hobbies.html',
         title="Aziz Hobbies",
         url=os.getenv("URL"),
         nav_links=data.NAV_LINKS,
         active_page="aziz_hobbies",
-        page_title="Aziz Hobbies",
-        message="Aziz's hobbies page will be added in the next branch.",
+        hobbies=data.AZIZ_HOBBIES,
     )

@@ -560,3 +560,55 @@ body {
         font-size: 14px;
     }
 }
+
+
+
+/* Aziz hobbies page */
+
+.aziz-hobby-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+}
+
+.aziz-hobby-card {
+    background: white;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.10);
+    border: 1px solid rgba(28, 83, 159, 0.08);
+}
+
+.aziz-hobby-image {
+    width: 100%;
+    height: 210px;
+    object-fit: cover;
+    display: block;
+}
+
+.aziz-hobby-content {
+    padding: 22px;
+    text-align: center;
+}
+
+.aziz-hobby-content h3 {
+    color: #172033;
+    font-size: 22px;
+    margin: 0 0 10px;
+}
+
+.aziz-hobby-content p {
+    color: #4b5563;
+    line-height: 1.65;
+    margin: 0;
+}
+
+@media (max-width: 850px) {
+    .aziz-hobby-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .aziz-hobby-image {
+        height: 240px;
+    }
+}

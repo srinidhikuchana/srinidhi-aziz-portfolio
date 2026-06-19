@@ -192,3 +192,30 @@ AZIZ_TRAVEL_PLACES = [
     {"name": "Berlin, Germany", "lat": 52.5200, "lng": 13.4050},
     {"name": "Athens, Greece", "lat": 37.9838, "lng": 23.7275},
 ]
+
+AZIZ_HOBBIES = [
+    {
+        "name": "Traveling",
+        "description": (
+            "I enjoy visiting new places, experiencing different cultures, and learning "
+            "from the cities and countries I travel to."
+        ),
+        "image": "travel.jpeg",
+    },
+    {
+        "name": "Building Projects",
+        "description": (
+            "I like turning ideas into real software projects and improving them step by step "
+            "while learning new technologies."
+        ),
+        "image": "project.jpeg",
+    },
+    {
+        "name": "Animals",
+        "description": (
+            "I enjoy spending time around animals and I like how they bring calmness, energy, "
+            "and personality into everyday life."
+        ),
+        "image": "animal.jpeg",
+    },
+]

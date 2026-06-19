@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Aziz Hobbies">
+    <meta property="og:description" content="Aziz Ercoban's hobbies and interests">
+    <meta property="og:url" content="{{ url }}">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    {% include "_nav.html" %}
+
+    <section class="person-hero aziz-hero">
+        <div class="person-photo">
+            <img src="{{ url_for('static', filename='img/metaxmlh.jpg') }}" alt="Aziz Ercoban">
+        </div>
+
+        <p class="eyebrow">Aziz Hobbies</p>
+        <h1>Hobbies & Interests</h1>
+        <p>
+            A few things I enjoy outside of university, internships, and technical work.
+        </p>
+
+        <div class="team-actions">
+            <a class="button-link" href="{{ url_for('aziz') }}">Back to Aziz Portfolio</a>
+            <a class="button-link secondary" href="{{ url_for('index') }}">Team Home</a>
+        </div>
+    </section>
+
+    <main class="content person-content">
+        <section class="section">
+            <h2>My Hobbies</h2>
+
+            <div class="aziz-hobby-grid">
+                {% for hobby in hobbies %}
+                <article class="aziz-hobby-card">
+                    <img
+                        src="{{ url_for('static', filename='img/' + hobby.image) }}"
+                        alt="{{ hobby.name }}"
+                        class="aziz-hobby-image"
+                    >
+
+                    <div class="aziz-hobby-content">
+                        <h3>{{ hobby.name }}</h3>
+                        <p>{{ hobby.description }}</p>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+</body>
+</html>
