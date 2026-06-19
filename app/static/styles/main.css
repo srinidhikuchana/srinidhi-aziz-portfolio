@@ -384,6 +384,114 @@ body {
     box-shadow: none;
 }
 
+/* Aziz portfolio page */
+
+.person-hero {
+    width: min(1120px, 92%);
+    margin: 54px auto 42px;
+    text-align: center;
+    background: linear-gradient(135deg, #1c539f 0%, #315fb3 100%);
+    color: white;
+    border-radius: 28px;
+    padding: 56px 32px;
+    box-shadow: 0 18px 48px rgba(15, 23, 42, 0.16);
+}
+
+.person-hero .eyebrow {
+    color: #dbeafe;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin: 0 0 12px;
+    font-size: 14px;
+}
+
+.person-hero h1 {
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1;
+    margin: 0 0 18px;
+    font-weight: 900;
+}
+
+.person-hero p {
+    max-width: 760px;
+    margin: 0 auto 28px;
+    color: #eef4ff;
+    font-size: 18px;
+    line-height: 1.75;
+}
+
+.person-avatar {
+    width: 118px;
+    height: 118px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 22px;
+    background: white;
+    color: #1c539f;
+    font-size: 38px;
+    font-weight: 900;
+    border: 8px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.18);
+}
+
+.person-photo {
+    width: 132px;
+    height: 132px;
+    border-radius: 50%;
+    margin: 0 auto 22px;
+    background: white;
+    border: 8px solid rgba(255, 255, 255, 0.22);
+    box-shadow: 0 14px 36px rgba(15, 23, 42, 0.18);
+    overflow: hidden;
+}
+
+.person-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.person-hero .button-link {
+    background: white;
+    color: #1c539f;
+    box-shadow: none;
+}
+
+.person-hero .button-link:hover {
+    background: #eef4ff;
+    box-shadow: none;
+}
+
+.person-hero .button-link.secondary {
+    background: rgba(255, 255, 255, 0.16);
+    color: white;
+}
+
+.person-hero .button-link.secondary:hover {
+    background: rgba(255, 255, 255, 0.24);
+}
+
+.person-content {
+    max-width: 900px;
+}
+
+.map-card {
+    background-color: white;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.10);
+    margin-top: 18px;
+}
+
+#aziz-travel-map {
+    height: 420px;
+    width: 100%;
+    border-radius: 14px;
+}
+
 /* Responsive */
 
 @media (max-width: 850px) {
@@ -411,6 +519,21 @@ body {
 
     .profile h1 {
         font-size: 38px;
+    }
+}
+
+@media (max-width: 650px) {
+    .person-hero {
+        margin-top: 34px;
+        padding: 42px 22px;
+    }
+
+    .person-hero h1 {
+        font-size: 42px;
+    }
+
+    #aziz-travel-map {
+        height: 340px;
     }
 }
 

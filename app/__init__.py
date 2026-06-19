@@ -52,13 +52,15 @@ def sri_nidhi_hobbies():
 @app.route('/aziz')
 def aziz():
     return render_template(
-        'coming_soon.html',
+        'aziz.html',
         title="Aziz Ercoban",
         url=os.getenv("URL"),
         nav_links=data.NAV_LINKS,
         active_page="aziz",
-        page_title="Aziz Ercoban",
-        message="Aziz's portfolio page will be added in the next branch.",
+        about_me=data.AZIZ_ABOUT_ME,
+        experiences=data.AZIZ_EXPERIENCES,
+        education=data.AZIZ_EDUCATION,
+        travel_places=data.AZIZ_TRAVEL_PLACES,
     )
 
 
@@ -71,5 +73,5 @@ def aziz_hobbies():
         nav_links=data.NAV_LINKS,
         active_page="aziz_hobbies",
         page_title="Aziz Hobbies",
-        message="Aziz's hobbies page will be added in a later branch.",
+        message="Aziz's hobbies page will be added in the next branch.",
     )

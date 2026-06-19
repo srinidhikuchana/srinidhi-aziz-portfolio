@@ -129,3 +129,66 @@ HOBBIES = [
 TRAVEL_PLACES = [
     {"name": "Singapore", "lat": 1.352083, "lng": 103.819836},
 ]
+
+
+AZIZ_ABOUT_ME = (
+    "Hi, I'm Aziz Ercoban, a Computer Science student at Trinity College Dublin. "
+    "I enjoy building backend systems, AI-powered applications, and practical software "
+    "projects using Python, Flask, Django, SQL, Docker, and JavaScript. I am especially "
+    "interested in backend engineering, production engineering, reliability, and turning "
+    "ideas into real working products."
+)
+
+AZIZ_EXPERIENCES = [
+    {
+        "title": "Backend & AI Engineer",
+        "company": "Propylon – AI-Native Legislative Research Platform",
+        "dates": "Dec 2025 – Mar 2026",
+        "location": "Remote",
+        "bullets": [
+            "Worked on backend and AI features for a legislative research platform.",
+            "Built workflows for Congress.gov data ingestion, legal-text chunking, embedding generation, semantic retrieval, reranking, caching, and citation validation.",
+            "Used Python, FastAPI-style backend patterns, search/retrieval systems, and AI tooling to support reliable legal research features.",
+        ],
+    },
+    {
+        "title": "Software Development Intern",
+        "company": "Cocoon Creations",
+        "dates": "Summer 2026",
+        "location": "Cyprus",
+        "bullets": [
+            "Working as a software development intern on real company projects.",
+            "Contributing to backend and web development tasks while improving practical engineering skills.",
+        ],
+    },
+    {
+        "title": "Production Engineering Fellow",
+        "company": "MLH Fellowship",
+        "dates": "Summer 2026",
+        "location": "Remote",
+        "bullets": [
+            "Selected for the Meta Production Engineering Fellowship through MLH.",
+            "Learning and applying production engineering and site reliability engineering concepts through hands-on technical work.",
+        ],
+    },
+]
+
+AZIZ_EDUCATION = [
+    {
+        "school": "Trinity College Dublin",
+        "degree": "Integrated Computer Science",
+        "dates": "2024 – 2028",
+        "details": (
+            "Completed Year 1 with First Class Honours. Relevant areas include programming, "
+            "data structures and algorithms, computer systems, statistics, databases, and software engineering."
+        ),
+    },
+]
+
+AZIZ_TRAVEL_PLACES = [
+    {"name": "Dublin, Ireland", "lat": 53.3498, "lng": -6.2603},
+    {"name": "Nicosia, Cyprus", "lat": 35.1856, "lng": 33.3823},
+    {"name": "Kyrenia, Cyprus", "lat": 35.3403, "lng": 33.3192},
+    {"name": "Berlin, Germany", "lat": 52.5200, "lng": 13.4050},
+    {"name": "Athens, Greece", "lat": 37.9838, "lng": 23.7275},
+]
