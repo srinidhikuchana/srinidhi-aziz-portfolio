@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta property="og:title" content="Aziz Ercoban - Portfolio">
+    <meta property="og:description" content="Aziz Ercoban's portfolio page">
+    <meta property="og:url" content="{{ url }}">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    {% include "_nav.html" %}
+
+    <section class="person-hero aziz-hero">
+        <div class="person-avatar">AE</div>
+        <p class="eyebrow">Aziz Portfolio</p>
+        <h1>Aziz Ercoban</h1>
+        <p>
+            Computer Science student at Trinity College Dublin interested in backend engineering,
+            AI systems, production engineering, and building real-world software projects.
+        </p>
+
+        <div class="team-actions">
+            <a class="button-link" href="{{ url_for('aziz_hobbies') }}">View Hobbies</a>
+            <a class="button-link secondary" href="{{ url_for('index') }}">Back to Team Home</a>
+        </div>
+    </section>
+
+    <main class="content person-content">
+
+        <section class="section" id="about">
+            <h2>About Me</h2>
+            <p>{{ about_me }}</p>
+        </section>
+
+        <section class="section" id="experience">
+            <h2>Experience</h2>
+
+            {% for job in experiences %}
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ job.title }}</h3>
+                    <span class="card-dates">{{ job.dates }}</span>
+                </div>
+
+                <p class="card-subtitle">
+                    {{ job.company }}{% if job.location %} &middot; {{ job.location }}{% endif %}
+                </p>
+
+                <ul>
+                    {% for bullet in job.bullets %}
+                    <li>{{ bullet }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endfor %}
+        </section>
+
+        <section class="section" id="education">
+            <h2>Education</h2>
+
+            {% for edu in education %}
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ edu.school }}</h3>
+                    <span class="card-dates">{{ edu.dates }}</span>
+                </div>
+
+                <p class="card-subtitle">{{ edu.degree }}</p>
+                {% if edu.details %}
+                <p>{{ edu.details }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </section>
+
+        <section class="section" id="travel">
+            <h2>Places I Have Visited</h2>
+            <p>
+                A small interactive map showing places connected to my studies, background,
+                and travel experiences.
+            </p>
+
+            <div class="map-card">
+                <div id="aziz-travel-map"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const azizTravelPlaces = {{ travel_places | tojson }};
+
+        const azizMap = L.map('aziz-travel-map').setView([42.0, 20.0], 4);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(azizMap);
+
+        azizTravelPlaces.forEach((place) => {
+            L.marker([place.lat, place.lng])
+                .addTo(azizMap)
+                .bindPopup(`<strong>${place.name}</strong>`);
+        });
+    </script>
+</body>
+</html>
