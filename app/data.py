@@ -101,5 +101,5 @@ HOBBIES = [
 ]
 
 TRAVEL_PLACES = [
-    {"name": "Hyderabad, India", "lat": 17.385044, "lng": 78.486671},
+    {"name": "Singapore", "lat": 1.352083, "lng": 103.819836},
 ]
