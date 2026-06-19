@@ -26,6 +26,7 @@ TEAM_MEMBERS = [
         "portfolio_endpoint": "sri_nidhi",
         "hobbies_endpoint": "sri_nidhi_hobbies",
         "initials": "SN",
+        "image": "logo.jpg",
     },
     {
         "name": "Aziz Ercoban",
@@ -37,6 +38,7 @@ TEAM_MEMBERS = [
         "portfolio_endpoint": "aziz",
         "hobbies_endpoint": "aziz_hobbies",
         "initials": "AE",
+        "image": "aziz-profile.jpeg",
     },
 ]
 

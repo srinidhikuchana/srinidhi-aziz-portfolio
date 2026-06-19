@@ -3,41 +3,63 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta property="og:title" content="Hobbies - Sri Nidhi Kuchana">
-    <meta property="og:description" content="My Hobbies">
+    <meta property="og:description" content="Sri Nidhi Kuchana's hobbies and interests">
     <meta property="og:url" content="{{ url }}">
 
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
-    <link rel='icon' href="{{ url_for('static', filename='img/favicon.ico') }}" type='image/x-icon' />
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+
     <title>{{ title }}</title>
 </head>
 
 <body>
     {% include "_nav.html" %}
 
-    <div class="profile profile-small">
-        <h1>Hobbies & Interests</h1>
-    </div>
+    <section class="person-hero">
+        <div class="person-photo">
+            <img src="{{ url_for('static', filename='img/logo.jpg') }}" alt="Sri Nidhi Kuchana">
+        </div>
 
-    <main class="content">
+        <p class="eyebrow">Sri Nidhi Hobbies</p>
+        <h1>Hobbies & Interests</h1>
+        <p>
+            A few interests and activities that reflect my creativity, curiosity,
+            and passion outside of technical work.
+        </p>
+
+        <div class="team-actions">
+            <a class="button-link" href="{{ url_for('sri_nidhi') }}">Back to Sri Nidhi Portfolio</a>
+            <a class="button-link secondary" href="{{ url_for('index') }}">Team Home</a>
+        </div>
+    </section>
+
+    <main class="content person-content">
         <section class="section">
+            <h2>Sri Nidhi's Hobbies</h2>
+
             <div class="hobby-grid">
                 {% for hobby in hobbies %}
-                <div class="hobby-card">
-                    <img src="{{ url_for('static', filename='img/hobbies/' + hobby.image) }}"
-                         alt="{{ hobby.name }}" class="hobby-image">
+                <article class="hobby-card">
+                    <img
+                        src="{{ url_for('static', filename='img/hobbies/' + hobby.image) }}"
+                        alt="{{ hobby.name }}"
+                        class="hobby-image"
+                    >
+
                     <h3>{{ hobby.name }}</h3>
                     <p>{{ hobby.description }}</p>
-                </div>
+                </article>
                 {% endfor %}
             </div>
         </section>
     </main>
 </body>
+
 </html>

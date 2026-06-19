@@ -315,6 +315,24 @@ body {
     box-shadow: 0 10px 28px rgba(28, 83, 159, 0.20);
 }
 
+.team-photo {
+    width: 108px;
+    height: 108px;
+    border-radius: 50%;
+    margin: 0 auto 22px;
+    background: white;
+    border: 8px solid #eaf1ff;
+    box-shadow: 0 10px 28px rgba(28, 83, 159, 0.20);
+    overflow: hidden;
+}
+
+.team-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
 .team-card-body {
     flex: 1;
 }
@@ -611,4 +629,63 @@ body {
     .aziz-hobby-image {
         height: 240px;
     }
+}
+
+
+/* Final shared styling improvements */
+
+.hobby-grid {
+    max-width: 920px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.hobby-card {
+    min-height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.team-card,
+.card,
+.hobby-card,
+.aziz-hobby-card,
+.team-hero,
+.person-hero {
+    animation: fadeInUp 0.35s ease both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Image safety fixes */
+
+.team-photo,
+.person-photo {
+    overflow: hidden;
+}
+
+.team-photo img,
+.person-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    padding: 0;
+    border-radius: 0;
+}
+
+.aziz-hobby-image {
+    object-fit: cover;
 }
