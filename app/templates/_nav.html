@@ -1,0 +1,15 @@
+<header class="nav-bar">
+    <div class="nav-content">
+        <a href="/">
+            <div class="nav-logo">
+                <img src="{{ url_for('static', filename='img/logo.svg') }}" />
+            </div>
+        </a>
+        <nav>
+            {% for link in nav_links %}
+                <a class="nav-link {% if active_page == link.endpoint %}nav-link-active{% endif %}"
+                   href="{{ url_for(link.endpoint) }}">{{ link.name }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+</header>
