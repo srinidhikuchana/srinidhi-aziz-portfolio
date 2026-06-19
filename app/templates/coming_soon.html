@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+</head>
+<body>
+    {% include "_nav.html" %}
+
+    <main class="team-homepage">
+        <section class="team-hero">
+            <p class="eyebrow">Coming Soon</p>
+            <h1>{{ page_title }}</h1>
+            <p>{{ message }}</p>
+
+            <div class="team-actions single-action">
+                <a class="button-link" href="{{ url_for('index') }}">
+                    Back to Team Home
+                </a>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

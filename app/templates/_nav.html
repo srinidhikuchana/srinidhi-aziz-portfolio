@@ -1,14 +1,17 @@
 <header class="nav-bar">
     <div class="nav-content">
-        <a href="/">
+        <a class="logo-link" href="{{ url_for('index') }}">
             <div class="nav-logo">
-                <img src="{{ url_for('static', filename='img/logo.svg') }}" />
+                <img src="{{ url_for('static', filename='img/logo.svg') }}" alt="MLH Fellowship logo">
             </div>
         </a>
-        <nav>
+
+        <nav class="nav-links">
             {% for link in nav_links %}
                 <a class="nav-link {% if active_page == link.endpoint %}nav-link-active{% endif %}"
-                   href="{{ url_for(link.endpoint) }}">{{ link.name }}</a>
+                   href="{{ url_for(link.endpoint) }}">
+                    {{ link.name }}
+                </a>
             {% endfor %}
         </nav>
     </div>

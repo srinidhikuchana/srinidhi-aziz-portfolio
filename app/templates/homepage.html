@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+</head>
+
+<body>
+    {% include "_nav.html" %}
+
+    <main class="team-homepage">
+        <section class="team-hero">
+            <p class="eyebrow">MLH Fellowship Portfolio</p>
+            <h1>Sri Nidhi & Aziz Portfolio</h1>
+            <p>
+                A shared team portfolio built with Flask, Jinja, HTML, CSS, and JavaScript.
+                Choose a team member below to explore their portfolio and hobbies.
+            </p>
+        </section>
+
+        <section class="team-grid">
+            {% for member in team_members %}
+            <article class="team-card">
+                <div class="team-avatar">
+                    {{ member.initials }}
+                </div>
+
+                <div class="team-card-body">
+                    <h2>{{ member.name }}</h2>
+                    <p class="team-role">{{ member.role }}</p>
+                    <p class="team-description">{{ member.description }}</p>
+                </div>
+
+                <div class="team-actions">
+                    <a class="button-link" href="{{ url_for(member.portfolio_endpoint) }}">
+                        View Portfolio
+                    </a>
+                    <a class="button-link secondary" href="{{ url_for(member.hobbies_endpoint) }}">
+                        View Hobbies
+                    </a>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+    </main>
+</body>
+</html>
