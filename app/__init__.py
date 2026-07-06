@@ -1,13 +1,26 @@
 import os
 from flask import Flask, render_template
 from dotenv import load_dotenv
-
+from peewee import *
 from app import data
 
 load_dotenv()
+
 app = Flask(__name__)
 
-
+db = MySQLDatabase(
+    os.getenv("MYSQL_DATABASE"),
+    user=os.getenv("MYSQL_USER"),
+    password=os.getenv("MYSQL_PASSWORD"),
+    host=os.getenv("MYSQL_HOST")
+)
+@app.route('/api/timeline_post/<int:post_id>', methods=['DELETE'])
+def delete_timeline_post(post_id):
+    post = TimelinePost.get_or_none(TimelinePost.id == post_id)
+    if post is None:
+        return jsonify({'error': 'Post not found'}), 404
+    post.delete_instance()
+    return jsonify({'message': 'Post deleted', 'id': post_id}), 200 
 @app.route('/')
 def index():
     return render_template(
