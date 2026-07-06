@@ -6,11 +6,9 @@ RANDOM_ID=$RANDOM
 NAME="TestUser_$RANDOM_ID"
 EMAIL="testuser_${RANDOM_ID}@example.com"
 CONTENT="This is a random test post #$RANDOM_ID"
-
 echo "===================================="
 echo "1. Sending POST request to create timeline post"
 echo "===================================="
-
 POST_RESPONSE=$(curl -s -X POST "$BASE_URL" \
   -H "Content-Type: application/json" \
   -d "{\"name\": \"$NAME\", \"email\": \"$EMAIL\", \"content\": \"$CONTENT\"}")
