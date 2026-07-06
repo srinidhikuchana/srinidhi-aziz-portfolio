@@ -1,25 +1,71 @@
 #!/bin/bash
-set -e
 
-PROJECT_DIR="$HOME/srinidhi-aziz-portfolio"
-VENV_DIR="python3-virtualenv"
-TMUX_SESSION="flask-session"
+BASE_URL="http://localhost:5000/api/timeline_post"
+RANDOM_ID=$RANDOM
 
-echo "Step 1: Killing all existing tmux sessions..."
-tmux kill-server 2>/dev/null || echo "No tmux sessions running."
+NAME="TestUser_$RANDOM_ID"
+EMAIL="testuser_${RANDOM_ID}@example.com"
+CONTENT="This is a random test post #$RANDOM_ID"
 
-echo "Step 2: Moving into project folder..."
-cd "$PROJECT_DIR"
+echo "===================================="
+echo "1. Sending POST request to create timeline post"
+echo "===================================="
 
-echo "Step 3: Pulling latest changes from main..."
-git fetch && git reset origin/main --hard
+POST_RESPONSE=$(curl -s -X POST "$BASE_URL" \
+  -H "Content-Type: application/json" \
+  -d "{\"name\": \"$NAME\", \"email\": \"$EMAIL\", \"content\": \"$CONTENT\"}")
 
-echo "Step 4: Installing dependencies in virtual environment..."
-source "$VENV_DIR/bin/activate"
-pip install -r requirements.txt
-deactivate
+echo "Response: $POST_RESPONSE"
 
-echo "Step 5: Starting new detached tmux session with Flask server..."
-tmux new-session -d -s "$TMUX_SESSION" "cd $PROJECT_DIR && source $VENV_DIR/bin/activate && export FLASK_APP=app && flask run --host=0.0.0.0 --port=5000"
+# Extract the id of the newly created post (requires jq)
+POST_ID=$(echo "$POST_RESPONSE" | jq -r '.id')
 
-echo "Redeploy complete. Site should be live."
+if [ "$POST_ID" == "null" ] || [ -z "$POST_ID" ]; then
+  echo "Failed to create post or extract ID. Exiting."
+  exit 1
+fi
+
+echo "Created post with ID: $POST_ID"
+echo ""
+
+echo "===================================="
+echo "2. Sending GET request to verify post was added"
+echo "===================================="
+
+GET_RESPONSE=$(curl -s -X GET "$BASE_URL")
+echo "Response: $GET_RESPONSE"
+
+# Check if our content shows up in the GET response
+if echo "$GET_RESPONSE" | grep -q "$CONTENT"; then
+  echo "SUCCESS: Test post found in GET response."
+else
+  echo "FAILURE: Test post NOT found in GET response."
+  exit 1
+fi
+
+echo ""
+echo "===================================="
+echo "3. (Bonus) Deleting the test post"
+echo "===================================="
+
+DELETE_RESPONSE=$(curl -s -X DELETE "$BASE_URL/$POST_ID")
+echo "Response: $DELETE_RESPONSE"
+
+echo ""
+echo "===================================="
+echo "4. Confirming deletion via GET"
+echo "===================================="
+
+FINAL_GET=$(curl -s -X GET "$BASE_URL")
+
+if echo "$FINAL_GET" | grep -q "$CONTENT"; then
+  echo "FAILURE: Test post still exists after deletion."
+  exit 1
+else
+  echo "SUCCESS: Test post successfully deleted."
+fi
+
+echo ""
+echo "===================================="
+echo "All tests passed!"
+echo "===================================="
