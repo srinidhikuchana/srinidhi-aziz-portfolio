@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>{{ title }}</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        header {
+            background: #243b67;
+            color: white;
+            padding: 32px 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        header a {
+            color: white;
+        }
+
+        main {
+            width: min(900px, 92%);
+            margin: 30px auto;
+        }
+
+        .form-section,
+        .posts-section {
+            background: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        form {
+            display: grid;
+            gap: 14px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            font: inherit;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            width: fit-content;
+            padding: 11px 22px;
+            border: none;
+            border-radius: 7px;
+            background: #243b67;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #17294c;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #message {
+            min-height: 24px;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        .success {
+            color: #15803d;
+        }
+
+        .error {
+            color: #b91c1c;
+        }
+
+        #posts {
+            display: grid;
+            gap: 16px;
+        }
+
+        .post {
+            border-left: 5px solid #243b67;
+            background: #f8fafc;
+            padding: 18px;
+            border-radius: 8px;
+        }
+
+        .post h3 {
+            margin: 0 0 5px;
+        }
+
+        .post-email,
+        .post-date {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .post-content {
+            margin: 14px 0 0;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-message {
+            color: #64748b;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Timeline</h1>
+        <p>Share updates from your school and career journey.</p>
+        <a href="/">Return to portfolio</a>
+    </header>
+
+    <main>
+        <section class="form-section">
+            <h2>Create a timeline post</h2>
+
+            <form id="timeline-form">
+                <div>
+                    <label for="name">Name</label>
+                    <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label for="content">Content</label>
+                    <textarea
+                        id="content"
+                        name="content"
+                        required
+                    ></textarea>
+                </div>
+
+                <button id="submit-button" type="submit">
+                    Add post
+                </button>
+            </form>
+
+            <p id="message"></p>
+        </section>
+
+        <section class="posts-section">
+            <h2>Recent posts</h2>
+            <div id="posts">
+                <p class="empty-message">Loading timeline posts...</p>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const form = document.getElementById("timeline-form");
+        const postsContainer = document.getElementById("posts");
+        const message = document.getElementById("message");
+        const submitButton = document.getElementById("submit-button");
+
+        function formatDate(value) {
+            const date = new Date(value);
+
+            if (Number.isNaN(date.getTime())) {
+                return value;
+            }
+
+            return date.toLocaleString();
+        }
+
+        function createPostElement(post) {
+            const article = document.createElement("article");
+            article.className = "post";
+
+            const name = document.createElement("h3");
+            name.textContent = post.name;
+
+            const email = document.createElement("div");
+            email.className = "post-email";
+            email.textContent = post.email;
+
+            const date = document.createElement("div");
+            date.className = "post-date";
+            date.textContent = formatDate(post.created_at);
+
+            const content = document.createElement("p");
+            content.className = "post-content";
+            content.textContent = post.content;
+
+            article.append(name, email, date, content);
+
+            return article;
+        }
+
+        function displayPosts(posts) {
+            postsContainer.replaceChildren();
+
+            if (posts.length === 0) {
+                const emptyMessage = document.createElement("p");
+                emptyMessage.className = "empty-message";
+                emptyMessage.textContent = "No timeline posts have been added yet.";
+                postsContainer.appendChild(emptyMessage);
+                return;
+            }
+
+            for (const post of posts) {
+                postsContainer.appendChild(createPostElement(post));
+            }
+        }
+
+        async function loadPosts() {
+            try {
+                const response = await fetch("/api/timeline_post");
+
+                if (!response.ok) {
+                    throw new Error("Could not retrieve timeline posts.");
+                }
+
+                const data = await response.json();
+                displayPosts(data.timeline_posts);
+            } catch (error) {
+                postsContainer.textContent = error.message;
+            }
+        }
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            message.textContent = "";
+            message.className = "";
+            submitButton.disabled = true;
+            submitButton.textContent = "Adding...";
+
+            try {
+                const response = await fetch("/api/timeline_post", {
+                    method: "POST",
+                    body: new FormData(form),
+                });
+
+                if (!response.ok) {
+                    throw new Error("The timeline post could not be created.");
+                }
+
+                form.reset();
+
+                message.textContent =
+                    "Timeline post added successfully.";
+
+                message.className = "success";
+
+                await loadPosts();
+            } catch (error) {
+                message.textContent = error.message;
+                message.className = "error";
+            } finally {
+                submitButton.disabled = false;
+                submitButton.textContent = "Add post";
+            }
+        });
+
+        loadPosts();
+    </script>
+</body>
+</html>
