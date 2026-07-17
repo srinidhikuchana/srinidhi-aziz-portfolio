@@ -9,12 +9,16 @@ from app import data
 load_dotenv()
 app = Flask(__name__)
 
-db = MySQLDatabase(
-    os.getenv("MYSQL_DATABASE"),
-    user=os.getenv("MYSQL_USER"),
-    password=os.getenv("MYSQL_PASSWORD"),
-    host=os.getenv("MYSQL_HOST")
-)
+if os.getenv("TESTING") == "true":
+    print("Running in test mode")
+    db = SqliteDatabase('file:memory?mode=memory&cache=shared', uri=True)
+else:
+    db = MySQLDatabase(
+        os.getenv("MYSQL_DATABASE"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
+        host=os.getenv("MYSQL_HOST")
+    )
 
 
 class TimelinePost(Model):
