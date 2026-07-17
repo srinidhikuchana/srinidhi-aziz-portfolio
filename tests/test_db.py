@@ -10,13 +10,15 @@ test_db = SqliteDatabase(':memory:')
 
 class TestTimelinePost(unittest.TestCase):
     def setUp(self):
-        test_db.bind(MODELS, bind_refs=False, bind_backrefs=False)
+        self.db_binding = test_db.bind_ctx(MODELS, bind_refs=False, bind_backrefs=False)
+        self.db_binding.__enter__()
         test_db.connect()
         test_db.create_tables(MODELS)
 
     def tearDown(self):
         test_db.drop_tables(MODELS)
         test_db.close()
+        self.db_binding.__exit__(None, None, None)
 
     def test_timeline_post(self):
         first_post = TimelinePost.create(name='John Doe', email='john@example.com', content='Hello world, I\'m John!')
