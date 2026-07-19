@@ -1,5 +1,6 @@
 import os
 import datetime
+import re
 from flask import Flask, render_template, request, jsonify
 from dotenv import load_dotenv
 from peewee import *
@@ -42,11 +43,26 @@ def timeline():
 
 @app.route('/api/timeline_post', methods=['POST'])
 def create_timeline_post():
-    req_data = request.get_json()
+    req_data = request.get_json(silent=True)
+    if not isinstance(req_data, dict):
+        req_data = {}
+
+    name = req_data.get('name')
+    if not isinstance(name, str) or not name.strip():
+        return jsonify({'error': 'Invalid name'}), 400
+
+    content = req_data.get('content')
+    if not isinstance(content, str) or not content.strip():
+        return jsonify({'error': 'Invalid content'}), 400
+
+    email = req_data.get('email')
+    if not isinstance(email, str) or not re.fullmatch(r'[^@\s]+@[^@\s]+\.[^@\s]+', email.strip()):
+        return jsonify({'error': 'Invalid email'}), 400
+
     post = TimelinePost.create(
-        name=req_data.get('name'),
-        email=req_data.get('email'),
-        content=req_data.get('content')
+        name=name.strip(),
+        email=email.strip(),
+        content=content.strip()
     )
     return jsonify(model_to_dict(post)), 201
 
@@ -54,7 +70,7 @@ def create_timeline_post():
 @app.route('/api/timeline_post', methods=['GET'])
 def get_timeline_posts():
     posts = TimelinePost.select().order_by(TimelinePost.created_at.desc())
-    return jsonify([model_to_dict(p) for p in posts]), 200
+    return jsonify({'timeline_posts': [model_to_dict(p) for p in posts]}), 200
 
 
 @app.route('/api/timeline_post/<int:post_id>', methods=['DELETE'])
