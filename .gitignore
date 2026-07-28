@@ -4,4 +4,7 @@ __pycache__
 .env
 python3-virtualenv
 flask.sqlite
-.DS_Store.env
+.DS_Store
+.env
+curl-test.sh
+TEAM_PORTFOLIO.md
