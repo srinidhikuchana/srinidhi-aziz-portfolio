@@ -20,10 +20,12 @@
     <main class="team-homepage">
         <section class="team-hero">
             <p class="eyebrow">MLH Fellowship Portfolio</p>
+
             <h1>Sri Nidhi & Aziz Portfolio</h1>
+
             <p>
                 A shared team portfolio built with Flask, Jinja, HTML, CSS, and JavaScript.
-                Choose a team member below to explore their portfolio and hobbies. Verified for Task 1 midway check-in!!
+                Choose a team member below to explore their portfolio, projects, skills, and hobbies.
             </p>
         </section>
 
@@ -32,7 +34,9 @@
             <article class="team-card">
                 {% if member.image %}
                 <div class="team-photo">
-                    <img src="{{ url_for('static', filename='img/' + member.image) }}" alt="{{ member.name }}">
+                    <img
+                        src="{{ url_for('static', filename='img/' + member.image) }}"
+                        alt="{{ member.name }}">
                 </div>
                 {% else %}
                 <div class="team-avatar">
@@ -42,15 +46,26 @@
 
                 <div class="team-card-body">
                     <h2>{{ member.name }}</h2>
-                    <p class="team-role">{{ member.role }}</p>
-                    <p class="team-description">{{ member.description }}</p>
+
+                    <p class="team-role">
+                        {{ member.role }}
+                    </p>
+
+                    <p class="team-description">
+                        {{ member.description }}
+                    </p>
                 </div>
 
                 <div class="team-actions">
-                    <a class="button-link" href="{{ url_for(member.portfolio_endpoint) }}">
+                    <a
+                        class="button-link"
+                        href="{{ url_for(member.portfolio_endpoint) }}">
                         View Portfolio
                     </a>
-                    <a class="button-link secondary" href="{{ url_for(member.hobbies_endpoint) }}">
+
+                    <a
+                        class="button-link secondary"
+                        href="{{ url_for(member.hobbies_endpoint) }}">
                         View Hobbies
                     </a>
                 </div>
