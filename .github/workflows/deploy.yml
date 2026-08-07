@@ -1,19 +1,23 @@
 name: Deploy
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   deploy:
     name: "Deploy to VPS"
     runs-on: ubuntu-latest
+
     steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy-key.pem
           chmod 600 ~/.ssh/deploy-key.pem
+
           cat >> ~/.ssh/config <<END
           Host my-vps
             HostName ${{ secrets.SSH_IP }}
@@ -21,21 +25,29 @@ jobs:
             IdentityFile ~/.ssh/deploy-key.pem
             StrictHostKeyChecking no
           END
+
+      - name: Install deployment public key
+        run: |
+          ssh my-vps '
+            mkdir -p "$HOME/.ssh"
+            chmod 700 "$HOME/.ssh"
+            touch "$HOME/.ssh/authorized_keys"
+
+            KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOPfSW6hdChbPv0ClZwHUrL9HXstwFXIIpIRjIhoW3BD github-actions-deploy"
+
+            grep -qxF "$KEY" "$HOME/.ssh/authorized_keys" || echo "$KEY" >> "$HOME/.ssh/authorized_keys"
+
+            chmod 600 "$HOME/.ssh/authorized_keys"
+
+            echo "Deployment key installed"
+            echo "Remote user:"
+            whoami
+            echo "Remote home:"
+            echo "$HOME"
+          '
+
       - name: Print project root directory
         run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
+
       - name: Deploy site
         run: ssh my-vps '~/redeploy-site.sh'
-      - name: Print out container status
-        run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && docker compose -f docker-compose.prod.yml ps'
-      - name: Notify Discord on success
-        if: success()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" \
-            -H "Content-Type: application/json" \
-            -d '{"content":"Deployment Successful"}'
-      - name: Notify Discord on failure
-        if: failure()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" \
-            -H "Content-Type: application/json" \
-            -d '{"content":"Deployment Failed"}'
