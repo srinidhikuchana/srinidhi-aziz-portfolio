@@ -1,5 +1,4 @@
 name: Run Tests
-
 on:
   push:
     branches:
@@ -7,7 +6,6 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -27,40 +25,3 @@ jobs:
         run: python3-virtualenv/bin/pip install -r requirements.txt
       - name: Run Tests
         run: ./run_test.sh
-
-  deploy:
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
-    name: Deploy to DigitalOcean
-    steps:
-      - name: Set up SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
-          chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H 64.227.148.211 >> ~/.ssh/known_hosts
-
-      - name: Run redeploy script on droplet
-        run: |
-          ssh -i ~/.ssh/deploy_key root@64.227.148.211 \
-            "bash ~/srinidhi-aziz-portfolio/redeploy-site.sh"
-
-      - name: Print out container status
-        run: |
-          ssh -i ~/.ssh/deploy_key root@64.227.148.211 \
-            "cd ~/srinidhi-aziz-portfolio && docker compose -f docker-compose.prod.yml ps"
-
-      - name: Notify Discord on success
-        if: success()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" \
-            -H "Content-Type: application/json" \
-            -d '{"content":"Deployment Successful"}'
-
-      - name: Notify Discord on failure
-        if: failure()
-        run: |
-          curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" \
-            -H "Content-Type: application/json" \
-            -d '{"content":"Deployment Failed"}'
