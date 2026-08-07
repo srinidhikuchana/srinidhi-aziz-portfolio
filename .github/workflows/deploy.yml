@@ -1,4 +1,5 @@
 name: Deploy
+
 on:
   push:
     branches:
@@ -9,12 +10,14 @@ jobs:
   deploy:
     name: "Deploy to VPS"
     runs-on: ubuntu-latest
+
     steps:
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh/
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy-key.pem
           chmod 600 ~/.ssh/deploy-key.pem
+
           cat >> ~/.ssh/config <<END
           Host my-vps
             HostName ${{ secrets.SSH_IP }}
@@ -22,6 +25,10 @@ jobs:
             IdentityFile ~/.ssh/deploy-key.pem
             StrictHostKeyChecking no
           END
+
+      - name: Install deployment public key
+        run: |
+          ssh my-vps 'mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOPfSW6hdChbPv0ClZwHUrL9HXstwFXIIpIRjIhoW3BD github-actions-deploy" >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys'
 
       - name: Print project root directory
         run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
