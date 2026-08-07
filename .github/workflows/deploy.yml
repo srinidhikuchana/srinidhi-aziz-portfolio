@@ -28,7 +28,21 @@ jobs:
 
       - name: Install deployment public key
         run: |
-          ssh my-vps 'mkdir -p ~/.ssh && chmod 700 ~/.ssh && echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOPfSW6hdChbPv0ClZwHUrL9HXstwFXIIpIRjIhoW3BD github-actions-deploy" >> ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys'
+          ssh my-vps '
+            mkdir -p "$HOME/.ssh"
+            chmod 700 "$HOME/.ssh"
+            touch "$HOME/.ssh/authorized_keys"
+
+            KEY="ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOPfSW6hdChbPv0ClZwHUrL9HXstwFXIIpIRjIhoW3BD github-actions-deploy"
+
+            grep -qxF "$KEY" "$HOME/.ssh/authorized_keys" || echo "$KEY" >> "$HOME/.ssh/authorized_keys"
+
+            chmod 600 "$HOME/.ssh/authorized_keys"
+
+            echo "Deployment key installed"
+            echo "Remote home:"
+            echo "$HOME"
+          '
 
       - name: Print project root directory
         run: ssh my-vps 'cd ${{ secrets.PROJECT_ROOT }} && pwd'
